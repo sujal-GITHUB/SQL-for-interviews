@@ -1,63 +1,93 @@
+-- Create Database
 
-/* -----------------------------------------------------------
-   STUDENT TABLE
---------------------------------------------------------------
-STUDENT_ID | FIRST_NAME | LAST_NAME | GPA  | ENROLLMENT_DATE     | MAJOR
----------------------------------------------------------------------------
-201        | Shivansh   | Mahajan   | 8.79 | 2021-09-01 09:30     | Computer Science
-202        | Umesh      | Sharma    | 8.44 | 2021-09-01 08:30     | Mathematics
-203        | Rakesh     | Kumar     | 5.6  | 2021-09-01 10:00     | Biology
-204        | Radha      | Sharma    | 9.2  | 2021-09-01 12:45     | Chemistry
-205        | Kush       | Kumar     | 7.85 | 2021-09-01 08:30     | Physics
-206        | Prem       | Chopra    | 9.56 | 2021-09-01 09:24     | History
-207        | Pankaj     | Vats      | 9.78 | 2021-09-01 02:30     | English
-208        | Navleen    | Kaur      | 7.0  | 2021-09-01 06:30     | Mathematics
----------------------------------------------------------------------------
-*/
+CREATE DATABASE mydb;
+USE mydb;
+DROP DATABASE mydb;
 
-/* -----------------------------------------------------------
-   PROGRAM TABLE
---------------------------------------------------------------
-STUDENT_REF_ID | PROGRAM_NAME      | PROGRAM_START_DATE
----------------------------------------------------------------------------
-201            | Computer Science  | 2021-09-01 00:00:00
-202            | Mathematics       | 2021-09-01 00:00:00
-208            | Mathematics       | 2021-09-01 00:00:00
-205            | Physics           | 2021-09-01 00:00:00
-204            | Chemistry         | 2021-09-01 00:00:00
-207            | Psychology        | 2021-09-01 00:00:00
-206            | History           | 2021-09-01 00:00:00
-203            | Biology           | 2021-09-01 00:00:00
----------------------------------------------------------------------------
-*/
+-- Create Table
 
-/* -----------------------------------------------------------
-   SCHOLARSHIP TABLE
---------------------------------------------------------------
-STUDENT_REF_ID | SCHOLARSHIP_AMOUNT | SCHOLARSHIP_DATE
----------------------------------------------------------------------------
-201            | 5000               | 2021-10-15 00:00:00
-202            | 4500               | 2022-08-18 00:00:00
-203            | 3000               | 2022-01-25 00:00:00
-204            | 4000               | 2021-10-15 00:00:00
----------------------------------------------------------------------------
-*/
+CREATE TABLE students (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    gpa DECIMAL(3,2)
+);
 
--- Write a SQL query to fetch "FIRST_NAME" from the Student table in upper case and use ALIAS name as STUDENT_NAME.
+-- View All Tables
 
-SELECT UPPER(FIRST_NAME) AS STUDENT_NAME FROM Student;
+SHOW TABLES;
 
--- Write a SQL query to fetch unique values of MAJOR Subjects from Student table.
+-- Delete Table
 
-SELECT DISTINCT MAJOR FROM Student;
-SELECT MAJOR FROM STUDENT GROUP BY(MAJOR);
+DROP TABLE students;
 
--- Write a SQL query to print the first 3 characters of FIRST_NAME from Student table.
+-- Modify Table
 
-SELECT SUBSTRING(FIRST_NAME, 1, 3) FROM Student;
+ALTER TABLE students ADD age INT;
+ALTER TABLE students DROP COLUMN age;
+ALTER TABLE students MODIFY name VARCHAR(100);
 
--- Write a SQL query that fetches the unique values of MAJOR Subjects from Student table and print its length.
+-- Insert Data
 
-SELECT DISTINCT MAJOR, LENGTH(MAJOR) FROM Student;
+INSERT INTO students (id, name, gpa)
+VALUES (1, 'Sujal', 8.7);
 
+-- Select everything
 
+SELECT * FROM students;
+
+-- Select specific columns
+
+SELECT name, gpa FROM students;
+
+-- Filtering (WHERE)
+
+SELECT * FROM students WHERE gpa > 8.0;
+
+-- Sorting
+
+SELECT * FROM students ORDER BY gpa DESC;
+
+-- Limit rows
+
+SELECT * FROM students LIMIT 5;
+
+-- Update Data
+
+UPDATE students 
+SET gpa = 9.1 
+WHERE id = 1;
+
+-- Delete Data
+
+DELETE FROM students WHERE id = 1;
+
+-- Aggregate Functions
+
+SELECT COUNT(*) FROM students;
+SELECT AVG(gpa) FROM students;
+SELECT MAX(gpa) FROM students;
+SELECT MIN(gpa) FROM students;
+
+-- Group By
+
+SELECT major, COUNT(*) 
+FROM students 
+GROUP BY major;
+
+-- Inner Join
+
+SELECT s.name, p.program_name
+FROM students s
+INNER JOIN programs p 
+ON s.id = p.student_ref_id;
+
+-- Left Join
+
+SELECT s.name, p.program_name
+FROM students s
+LEFT JOIN programs p 
+ON s.id = p.student_ref_id;
+
+-- Create Index
+
+CREATE INDEX idx_name ON students(name);
