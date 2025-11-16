@@ -1,10 +1,8 @@
--- Customer Who Visited but Did Not Make Any Transactions
+-- Product Sales Analysis I
 
--- Link : https://leetcode.com/problems/customer-who-visited-but-did-not-make-any-transactions/description/?envType=study-plan-v2&envId=top-sql-50
+-- Link : https://leetcode.com/problems/product-sales-analysis-i/description/?envType=study-plan-v2&envId=top-sql-50
 
-SELECT v.customer_id, COUNT(*) as count_no_trans
-FROM Visits v
-LEFT JOIN Transactions t
-ON v.visit_id = t.visit_id
-WHERE t.transaction_id IS NULL
-GROUP BY v.customer_id
+SELECT p.product_name, s.year, s.price
+FROM Sales s
+JOIN Product p
+WHERE s.product_id = p.product_id
