@@ -3,3 +3,13 @@
 SELECT customer_id, order_id, order_date,
 SUM(order_amount) OVER (PARTITION BY customer_id ORDER BY order_date) AS running_total
 FROM orders;
+
+-- Write a query to calculate a running total
+
+SELECT
+  id,
+  sale_date,
+  amount,
+  SUM(amount) OVER (ORDER BY sale_date) AS running_total
+FROM
+  sales;
